@@ -6,3 +6,8 @@ terraform {
     }
   }
 }
+
+provider "google" {
+  project     = "testmap-417607"
+  region      = "us-east1"
+}
