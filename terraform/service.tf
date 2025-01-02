@@ -17,3 +17,15 @@ resource "docker_registry_image" "chiradev_image" {
   depends_on = [ docker_image.chiradev_demo,google_artifact_registry_repository.registry ]
 }
 
+resource "google_cloud_run_service" "chiradev_service" {
+  name = "chiradev-service"
+  location = "us-east1"
+  template {
+    spec {
+      containers {
+        image = docker_registry_image.chiradev_image.name
+      }
+    }
+  }
+  depends_on = [ docker_registry_image.chiradev_image ]
+}
