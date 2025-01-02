@@ -13,7 +13,7 @@ terraform {
 
 provider "google" {
   project     = "testmap-417607"
-  region      = "us-east1"
+  region      = var.region
 }
 
 data "google_client_config" "default"{
@@ -21,7 +21,7 @@ data "google_client_config" "default"{
 
 provider "docker" {
   registry_auth {
-    address = "us-east1-docker.pkg.dev"
+    address = "${var.region}-docker.pkg.dev"
     username = "oauth2accesstoken"
     password = data.google_client_config.default.access_token
   }

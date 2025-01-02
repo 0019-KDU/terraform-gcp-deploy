@@ -1,12 +1,12 @@
 resource "docker_image" "chiradev_demo" {
-  name = "us-east1-docker.pkg.dev/testmap-417607/${google_artifact_registry_repository.registry.name}/chiradev-demo-tf"
+  name = local.docker_image_url
   build {
     context = "../src/"
   }
 } 
 
 resource "google_artifact_registry_repository" "registry" {
-  location      = "us-east1"
+  location      = var.region
   repository_id = "chiradev-demo-repo"
   format        = "DOCKER"
 }
@@ -19,7 +19,7 @@ resource "docker_registry_image" "chiradev_image" {
 
 resource "google_cloud_run_service" "chiradev_service" {
   name = "chiradev-service"
-  location = "us-east1"
+  location = var.region
   template {
     spec {
       containers {
